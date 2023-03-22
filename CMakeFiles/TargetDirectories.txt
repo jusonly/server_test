@@ -1,0 +1,3 @@
+/workspace/NanTongProtocol2/CMakeFiles/edit_cache.dir
+/workspace/NanTongProtocol2/CMakeFiles/rebuild_cache.dir
+/workspace/NanTongProtocol2/CMakeFiles/procotol.dir
