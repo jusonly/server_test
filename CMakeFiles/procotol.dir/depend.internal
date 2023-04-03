@@ -15,12 +15,6 @@ CMakeFiles/procotol.dir/protocol/protocol_prco_abstruct.c.o
  /workspace/NanTongProtocol2/protocol/protocol_prco_abstruct.c
  /workspace/NanTongProtocol2/protocol/protocol_proc_abstruct.h
  utils/mini_utils.h
-CMakeFiles/procotol.dir/protocol/protocol_server_proc.c.o
- /workspace/NanTongProtocol2/protocol/protocol.h
- /workspace/NanTongProtocol2/protocol/protocol_proc_abstruct.h
- /workspace/NanTongProtocol2/protocol/protocol_server_proc.c
- /workspace/NanTongProtocol2/protocol/protocol_server_proc.h
- utils/mini_utils.h
 CMakeFiles/procotol.dir/utils/mini_utils.c.o
  /workspace/NanTongProtocol2/utils/mini_utils.c
  /workspace/NanTongProtocol2/utils/mini_utils.h
@@ -30,3 +24,9 @@ CMakeFiles/procotol.dir/main.cpp.o
  /workspace/NanTongProtocol2/protocol/protocol_client_proc.h
  /workspace/NanTongProtocol2/protocol/protocol_proc_abstruct.h
  /workspace/NanTongProtocol2/protocol/protocol_server_proc.h
+CMakeFiles/procotol.dir/protocol/protocol_server_proc.cpp.o
+ /workspace/NanTongProtocol2/protocol/protocol.h
+ /workspace/NanTongProtocol2/protocol/protocol_proc_abstruct.h
+ /workspace/NanTongProtocol2/protocol/protocol_server_proc.cpp
+ /workspace/NanTongProtocol2/protocol/protocol_server_proc.h
+ utils/mini_utils.h

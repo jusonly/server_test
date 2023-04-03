@@ -128,18 +128,18 @@ CMakeFiles/procotol.dir/protocol/protocol_prco_abstruct.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/procotol.dir/protocol/protocol_prco_abstruct.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /workspace/NanTongProtocol2/protocol/protocol_prco_abstruct.c -o CMakeFiles/procotol.dir/protocol/protocol_prco_abstruct.c.s
 
-CMakeFiles/procotol.dir/protocol/protocol_server_proc.c.o: CMakeFiles/procotol.dir/flags.make
-CMakeFiles/procotol.dir/protocol/protocol_server_proc.c.o: protocol/protocol_server_proc.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/workspace/NanTongProtocol2/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/procotol.dir/protocol/protocol_server_proc.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/procotol.dir/protocol/protocol_server_proc.c.o -c /workspace/NanTongProtocol2/protocol/protocol_server_proc.c
+CMakeFiles/procotol.dir/protocol/protocol_server_proc.cpp.o: CMakeFiles/procotol.dir/flags.make
+CMakeFiles/procotol.dir/protocol/protocol_server_proc.cpp.o: protocol/protocol_server_proc.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/workspace/NanTongProtocol2/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/procotol.dir/protocol/protocol_server_proc.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/procotol.dir/protocol/protocol_server_proc.cpp.o -c /workspace/NanTongProtocol2/protocol/protocol_server_proc.cpp
 
-CMakeFiles/procotol.dir/protocol/protocol_server_proc.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/procotol.dir/protocol/protocol_server_proc.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /workspace/NanTongProtocol2/protocol/protocol_server_proc.c > CMakeFiles/procotol.dir/protocol/protocol_server_proc.c.i
+CMakeFiles/procotol.dir/protocol/protocol_server_proc.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/procotol.dir/protocol/protocol_server_proc.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/NanTongProtocol2/protocol/protocol_server_proc.cpp > CMakeFiles/procotol.dir/protocol/protocol_server_proc.cpp.i
 
-CMakeFiles/procotol.dir/protocol/protocol_server_proc.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/procotol.dir/protocol/protocol_server_proc.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /workspace/NanTongProtocol2/protocol/protocol_server_proc.c -o CMakeFiles/procotol.dir/protocol/protocol_server_proc.c.s
+CMakeFiles/procotol.dir/protocol/protocol_server_proc.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/procotol.dir/protocol/protocol_server_proc.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/NanTongProtocol2/protocol/protocol_server_proc.cpp -o CMakeFiles/procotol.dir/protocol/protocol_server_proc.cpp.s
 
 CMakeFiles/procotol.dir/utils/mini_utils.c.o: CMakeFiles/procotol.dir/flags.make
 CMakeFiles/procotol.dir/utils/mini_utils.c.o: utils/mini_utils.c
@@ -160,7 +160,7 @@ procotol_OBJECTS = \
 "CMakeFiles/procotol.dir/protocol/protocol.c.o" \
 "CMakeFiles/procotol.dir/protocol/protocol_client_proc.c.o" \
 "CMakeFiles/procotol.dir/protocol/protocol_prco_abstruct.c.o" \
-"CMakeFiles/procotol.dir/protocol/protocol_server_proc.c.o" \
+"CMakeFiles/procotol.dir/protocol/protocol_server_proc.cpp.o" \
 "CMakeFiles/procotol.dir/utils/mini_utils.c.o"
 
 # External object files for target procotol
@@ -170,7 +170,7 @@ bin/procotol: CMakeFiles/procotol.dir/main.cpp.o
 bin/procotol: CMakeFiles/procotol.dir/protocol/protocol.c.o
 bin/procotol: CMakeFiles/procotol.dir/protocol/protocol_client_proc.c.o
 bin/procotol: CMakeFiles/procotol.dir/protocol/protocol_prco_abstruct.c.o
-bin/procotol: CMakeFiles/procotol.dir/protocol/protocol_server_proc.c.o
+bin/procotol: CMakeFiles/procotol.dir/protocol/protocol_server_proc.cpp.o
 bin/procotol: CMakeFiles/procotol.dir/utils/mini_utils.c.o
 bin/procotol: CMakeFiles/procotol.dir/build.make
 bin/procotol: CMakeFiles/procotol.dir/link.txt

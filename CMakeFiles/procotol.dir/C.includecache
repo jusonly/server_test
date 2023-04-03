@@ -10,27 +10,19 @@
 stdint.h
 -
 
-/workspace/NanTongProtocol2/protocol/protocol_proc_abstruct.h
-protocol.h
-/workspace/NanTongProtocol2/protocol/protocol.h
-stdint.h
--
-
-/workspace/NanTongProtocol2/protocol/protocol_server_proc.c
+/workspace/NanTongProtocol2/protocol/protocol_client_proc.c
 string.h
+-
+stdio.h
 -
 protocol_proc_abstruct.h
 /workspace/NanTongProtocol2/protocol/protocol_proc_abstruct.h
-protocol_server_proc.h
-/workspace/NanTongProtocol2/protocol/protocol_server_proc.h
 mini_utils.h
 /workspace/NanTongProtocol2/protocol/mini_utils.h
 
-/workspace/NanTongProtocol2/protocol/protocol_server_proc.h
+/workspace/NanTongProtocol2/protocol/protocol_proc_abstruct.h
 protocol.h
 /workspace/NanTongProtocol2/protocol/protocol.h
-protocol_proc_abstruct.h
-/workspace/NanTongProtocol2/protocol/protocol_proc_abstruct.h
 stdint.h
 -
 

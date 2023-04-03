@@ -3,7 +3,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/procotol.dir/protocol/protocol.c.o"
   "CMakeFiles/procotol.dir/protocol/protocol_client_proc.c.o"
   "CMakeFiles/procotol.dir/protocol/protocol_prco_abstruct.c.o"
-  "CMakeFiles/procotol.dir/protocol/protocol_server_proc.c.o"
+  "CMakeFiles/procotol.dir/protocol/protocol_server_proc.cpp.o"
   "CMakeFiles/procotol.dir/utils/mini_utils.c.o"
   "bin/procotol"
   "bin/procotol.pdb"

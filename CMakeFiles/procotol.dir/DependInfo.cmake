@@ -8,7 +8,6 @@ set(CMAKE_DEPENDS_CHECK_C
   "/workspace/NanTongProtocol2/protocol/protocol.c" "/workspace/NanTongProtocol2/CMakeFiles/procotol.dir/protocol/protocol.c.o"
   "/workspace/NanTongProtocol2/protocol/protocol_client_proc.c" "/workspace/NanTongProtocol2/CMakeFiles/procotol.dir/protocol/protocol_client_proc.c.o"
   "/workspace/NanTongProtocol2/protocol/protocol_prco_abstruct.c" "/workspace/NanTongProtocol2/CMakeFiles/procotol.dir/protocol/protocol_prco_abstruct.c.o"
-  "/workspace/NanTongProtocol2/protocol/protocol_server_proc.c" "/workspace/NanTongProtocol2/CMakeFiles/procotol.dir/protocol/protocol_server_proc.c.o"
   "/workspace/NanTongProtocol2/utils/mini_utils.c" "/workspace/NanTongProtocol2/CMakeFiles/procotol.dir/utils/mini_utils.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
@@ -20,6 +19,7 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
   )
 set(CMAKE_DEPENDS_CHECK_CXX
   "/workspace/NanTongProtocol2/main.cpp" "/workspace/NanTongProtocol2/CMakeFiles/procotol.dir/main.cpp.o"
+  "/workspace/NanTongProtocol2/protocol/protocol_server_proc.cpp" "/workspace/NanTongProtocol2/CMakeFiles/procotol.dir/protocol/protocol_server_proc.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
