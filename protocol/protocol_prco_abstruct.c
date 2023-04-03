@@ -48,6 +48,43 @@ void get_device_alarm_data_flow(uint8_t *buf)
     memcpy(buf, &alarm_data, sizeof(alarm_data_t));
 }
 
+void fill_update_data(uint8_t *buf, const update_data_t *update)
+{
+    uint16_t pos = 0;
+    big_endian_store_16(buf + pos, update->version);
+    pos += 2;
+
+    buf[pos++] = update->cmd;
+    big_endian_store_16(buf + pos, update->file_size);
+    pos += 2;
+    buf[pos++] = update->packet_num;
+    buf[pos++] = update->idx;
+    buf[pos++] = update->len;
+
+    memcpy(buf + pos, update->data, update->len);
+}
+
+uint16_t fill_plan_task_stream(uint8_t *buf, const plan_task_manage_t *plan_task)
+{
+    uint8_t i;
+    uint8_t pos = 0;
+
+    buf[pos++] = plan_task->init_state;
+    buf[pos++] = plan_task->init_dimm_level;
+
+    for (i = 0; i < plan_task->task_num; i++)
+    {
+        buf[pos++] = plan_task->plan_task[i].start_point.hour;
+        buf[pos++] = plan_task->plan_task[i].start_point.min;
+        buf[pos++] = plan_task->plan_task[i].start_point.sec;
+        big_endian_store_32(buf + pos, plan_task->plan_task[i].keep_sec);
+        pos += 4;
+        buf[pos++] = plan_task->plan_task[i].action;
+        buf[pos++] = plan_task->plan_task[i].dimm_level;
+    }
+    return pos;
+}
+
 void modify_protocol_frame_time(protocol_frame_t *frame)
 {
     if (g_profile.get_time_fptr)
@@ -60,6 +97,13 @@ void modify_protocol_frame_time(protocol_frame_t *frame)
         g_profile.get_time_fptr(&time);
         memcpy(&frame->body.header.send_time, &time, sizeof(uint64_t));
     }
+}
+
+void copy_and_modify_time_dir(protocol_frame_t *frame_tmp, const protocol_frame_t *frame, uint8_t dir)
+{
+    memcpy(frame_tmp, frame, sizeof(protocol_frame_t));
+    modify_protocol_frame_time(frame_tmp);
+    frame_tmp->body.header.data_dir = dir;
 }
 
 void protocol_frame_profile_fill(protocol_frame_t *frame)

@@ -1,6 +1,7 @@
 #include "protocol.h"
 #include "mini_utils.h"
 #include <string.h>
+#include "stdio.h"
 
 #define _NULL_ (0)
 /* 解析成功（指针复位，清除数据）
@@ -29,7 +30,7 @@ static uint8_t is_has_sub_cmd(uint8_t prm_cmd)
 uint16_t calcu_logic_protocol_len(const protocol_frame_t *frame)
 {
     /* logic_header + logic_body + crc(1 Byte)*/
-    uint32_t len = sizeof(protocol_logic_header_t) + frame->body.header.business_data_len + 1;
+    uint32_t len = sizeof(protocol_logic_header_t) + frame->body.header.biz_data_len + 1;
 
     if (frame->body.body.is_has_sub_cmd)
     {
@@ -52,13 +53,13 @@ void protocol_frame_memory_convert(protocol_frame_t *frame, uint8_t dir)
     {
         frame->header.body_len                = big_endian_read_32((uint8_t *)&frame->header.body_len);
         frame->body.header.logic_protocol_ver = big_endian_read_16((uint8_t *)&frame->body.header.logic_protocol_ver);
-        frame->body.header.business_data_len  = big_endian_read_16((uint8_t *)&frame->body.header.business_data_len);
+        frame->body.header.biz_data_len  = big_endian_read_16((uint8_t *)&frame->body.header.biz_data_len);
         frame->body.header.send_time          = big_endian_read_64((uint8_t *)&frame->body.header.send_time);
     } else
     {
         big_endian_store_32((uint8_t *)&frame->header.body_len, frame->header.body_len);
         big_endian_store_16((uint8_t *)&frame->body.header.logic_protocol_ver, frame->body.header.logic_protocol_ver);
-        big_endian_store_16((uint8_t *)&frame->body.header.business_data_len, frame->body.header.business_data_len);
+        big_endian_store_16((uint8_t *)&frame->body.header.biz_data_len, frame->body.header.biz_data_len);
         big_endian_store_64((uint8_t *)&frame->body.header.send_time, frame->body.header.send_time);
     }
 }
@@ -71,7 +72,7 @@ void deserialize_protocol_frame(protocol_frame_t *frame, const uint8_t *data)
     memcpy((void *)&frame->body, data + sizeof(protocol_header_t), sizeof(protocol_logic_header_t));
     pos = sizeof(protocol_header_t) + sizeof(protocol_logic_header_t);
 
-    if (is_has_sub_cmd(data[pos]))
+    if (is_has_sub_cmd(frame->body.header.prm_cmd))
     {
         frame->body.body.is_has_sub_cmd = 1;
         frame->body.body.sub_cmd        = data[pos++];
@@ -80,9 +81,9 @@ void deserialize_protocol_frame(protocol_frame_t *frame, const uint8_t *data)
     {
         frame->body.body.is_has_sub_cmd = 0;
     }
-    if (frame->body.header.business_data_len > 0)
+    if (frame->body.header.biz_data_len > 0)
     {
-        frame->body.body.business_data = (uint8_t *)(data + pos);
+        frame->body.body.biz_data_ptr = (uint8_t *)(data + pos);
     }
     /* Step2: data convert(big endian to little endian) */
     protocol_frame_memory_convert(frame, 0);
@@ -104,15 +105,26 @@ void serialize_protocol_frame(const protocol_frame_t *frame, uint8_t *data)
 
     /* Step4: copy business data, use origin frame data(the part data memory convert by itself) */
     pos = sizeof(protocol_header_t) + sizeof(protocol_logic_header_t);
+
     if (frame->body.body.is_has_sub_cmd)
     {
         data[pos++] = frame->body.body.sub_cmd;
+        if (frame->body.header.biz_data_len > 0)
+        {
+            /* have sub cmd */
+            memcpy(data + pos, (void *)frame->body.body.biz_data_ptr, frame->body.header.biz_data_len - 1);
+        }
+        data[pos + frame->body.header.biz_data_len] = crc8(data + sizeof(protocol_header_t), frame->header.body_len - 2);
     }
-    if (frame->body.header.business_data_len > 0)
+    else
     {
-        memcpy(data + pos, (void *)frame->body.body.business_data, frame->body.header.business_data_len);
+        /* no sub cmd */
+        if (frame->body.header.biz_data_len > 0)
+        {
+            memcpy(data + pos, (void *)frame->body.body.biz_data_ptr, frame->body.header.biz_data_len);
+        }
+        data[pos + frame->body.header.biz_data_len] = crc8(data + sizeof(protocol_header_t), frame->header.body_len - 1);
     }
-    data[pos + frame->body.header.business_data_len] = crc8(data + sizeof(protocol_header_t), frame->header.body_len - 1);
 }
 
 int32_t protocol_frame_search(uint8_t *data, uint16_t len, uint16_t *frame_len)
@@ -120,7 +132,7 @@ int32_t protocol_frame_search(uint8_t *data, uint16_t len, uint16_t *frame_len)
     int32_t start_pos, incompleted_frame_start_pos;
     uint16_t id_char1_pos, id_char2_pos;
     uint16_t body_len_pos, logic_body_len_pos;
-    uint32_t body_len;
+    uint32_t body_len, body_len_cmp;
     uint16_t logic_body_len;
     const uint16_t frame_min_len = sizeof(protocol_header_t) + sizeof(protocol_logic_header_t) + 1; /* 1 is the len of crc */
 
@@ -137,7 +149,8 @@ int32_t protocol_frame_search(uint8_t *data, uint16_t len, uint16_t *frame_len)
                 logic_body_len_pos = start_pos + frame_min_len - 3; /* 3 is the len of (data_len) in protocol_logic_header_t and 1 Byte crc*/
                 body_len           = big_endian_read_32(data + body_len_pos);
                 logic_body_len     = big_endian_read_16(data + logic_body_len_pos);
-                if (body_len == logic_body_len + sizeof(protocol_logic_header_t) + 1)
+                body_len_cmp = logic_body_len + sizeof(protocol_logic_header_t) + 1; /* crc occupy 1Byte */
+                if (body_len == body_len_cmp || body_len == (body_len_cmp+1) ) /* note: subcmd occupy another 1Byte*/
                 {
                     /* case1：找到完整帧，结束循环 */
                     //@todo: crc

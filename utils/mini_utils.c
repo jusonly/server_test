@@ -20,7 +20,7 @@ float big_endian_read_32f(const uint8_t *buffer)
 
 uint64_t big_endian_read_64(const uint8_t *buffer)
 {
-    return ((uint64_t)buffer[7]) | (((uint64_t)buffer[6]) << 8) | (((uint64_t)buffer[5]) << 16) | (((uint64_t)buffer[4]) << 24) | (((uint64_t)buffer[3]) << 32) | (((uint64_t)buffer[2]) << 40) | (((uint64_t)buffer[1]) << 48) | (((uint64_t)buffer[48]) << 56);
+    return ((uint64_t)buffer[7]) | (((uint64_t)buffer[6]) << 8) | (((uint64_t)buffer[5]) << 16) | (((uint64_t)buffer[4]) << 24) | (((uint64_t)buffer[3]) << 32) | (((uint64_t)buffer[2]) << 40) | (((uint64_t)buffer[1]) << 48) | (((uint64_t)buffer[0]) << 56);
 }
 
 void big_endian_store_16(uint8_t *buffer, uint16_t value)

@@ -18,7 +18,13 @@ int32_t construct_sync_time_frame(uint8_t *data);
 
 void send_restart_frame(void);
 void send_sync_time_frame(void);
-void send_lamp_dimm_frame(int level);
+void send_lamp_dimm_frame(void);
+void send_realtime_report(void);
+void send_update_frame(void);
+void send_query_latest_data_frame(void);
+void send_set_term_plan_task(void);
+void send_query_term_plan_task(void);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -250,32 +250,32 @@ protocol/protocol_prco_abstruct.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/procotol.dir/build.make CMakeFiles/procotol.dir/protocol/protocol_prco_abstruct.c.s
 .PHONY : protocol/protocol_prco_abstruct.c.s
 
-protocol/protocol_server_proc.o: protocol/protocol_server_proc.c.o
+protocol/protocol_server_proc.o: protocol/protocol_server_proc.cpp.o
 
 .PHONY : protocol/protocol_server_proc.o
 
 # target to build an object file
-protocol/protocol_server_proc.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/procotol.dir/build.make CMakeFiles/procotol.dir/protocol/protocol_server_proc.c.o
-.PHONY : protocol/protocol_server_proc.c.o
+protocol/protocol_server_proc.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/procotol.dir/build.make CMakeFiles/procotol.dir/protocol/protocol_server_proc.cpp.o
+.PHONY : protocol/protocol_server_proc.cpp.o
 
-protocol/protocol_server_proc.i: protocol/protocol_server_proc.c.i
+protocol/protocol_server_proc.i: protocol/protocol_server_proc.cpp.i
 
 .PHONY : protocol/protocol_server_proc.i
 
 # target to preprocess a source file
-protocol/protocol_server_proc.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/procotol.dir/build.make CMakeFiles/procotol.dir/protocol/protocol_server_proc.c.i
-.PHONY : protocol/protocol_server_proc.c.i
+protocol/protocol_server_proc.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/procotol.dir/build.make CMakeFiles/procotol.dir/protocol/protocol_server_proc.cpp.i
+.PHONY : protocol/protocol_server_proc.cpp.i
 
-protocol/protocol_server_proc.s: protocol/protocol_server_proc.c.s
+protocol/protocol_server_proc.s: protocol/protocol_server_proc.cpp.s
 
 .PHONY : protocol/protocol_server_proc.s
 
 # target to generate assembly for a file
-protocol/protocol_server_proc.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/procotol.dir/build.make CMakeFiles/procotol.dir/protocol/protocol_server_proc.c.s
-.PHONY : protocol/protocol_server_proc.c.s
+protocol/protocol_server_proc.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/procotol.dir/build.make CMakeFiles/procotol.dir/protocol/protocol_server_proc.cpp.s
+.PHONY : protocol/protocol_server_proc.cpp.s
 
 utils/mini_utils.o: utils/mini_utils.c.o
 

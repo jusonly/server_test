@@ -14,12 +14,12 @@ Fix 10 Bytes
 | 2B BCD  | 2B BCD     | 2B BCD         | uint64_t |
 
 Fix 24 Bytes
-| header1 | address | header2 | logic_protocol_ver | device_type | realtime_flag | send_time | prm_cmd | data_dir | business_data_len |
+| header1 | address | header2 | logic_protocol_ver | device_type | realtime_flag | send_time | prm_cmd | data_dir | biz_data_len |
 | ------- | ------- | ------- | ------------------ | ----------- | ------------- | --------- | ------- | -------- | ----------------- |
 | 1B      | 6B BCD  | 1B      | uint16_t           | uint8_t     | uint8_t       | 8B        | uint8_t | uint8_t  | uint16_t          |
 
 >=1 Bytes
-| sub_cmd      | business_data | crc |
+| sub_cmd      | biz_data_ptr | crc |
 | ------------ | ------------- | --- |
 | optional(1B) | optional(xxB) | 1B  |
 
@@ -65,7 +65,7 @@ enum {
     PRM_CMD_DEV_REQUSET_LOGIN        = 0x01,
     PRM_CMD_PLT_RESTART_DEVICE       = 0x02,
     PRM_CMD_PLT_SYNC_TIME            = 0x03,
-    PRM_CMD_PLT_EN_REALTIME_REPORT   = 0x05,
+    PRM_CMD_PLT_SET_REALTIME_REPORT   = 0x05,
     PRM_CMD_DEV_HEART_REPORT         = 0x06,
     PRM_CMD_PLT_SET_PLAN_TASK        = 0x07,
     PRM_CMD_PLT_QUERY_PLAN_TASK      = 0x08,
@@ -133,14 +133,14 @@ typedef struct MEMORY_PACKED {
     uint64_t send_time;
     uint8_t prm_cmd;
     uint8_t data_dir;
-    uint16_t business_data_len;
+    uint16_t biz_data_len;
 } protocol_logic_header_t;
 
 /* unfixed-length */
 typedef struct {
     uint8_t sub_cmd;
     uint8_t is_has_sub_cmd;
-    uint8_t *business_data; // depends on data_len in protocol_logic_header_t
+    uint8_t *biz_data_ptr; // depends on data_len in protocol_logic_header_t
 } protocol_logic_body_t;
 
 typedef struct {
@@ -156,8 +156,8 @@ typedef struct {
 
 typedef void (*recv_proc_fptr_t)(const protocol_frame_t *frame);
 
-#define FRAME_BUSS_DATA_POS (sizeof(protocol_header_t) + sizeof(protocol_logic_header_t) - 1)
-#define FRAME_BUSS_DATA_POS2 (sizeof(protocol_header_t) + sizeof(protocol_logic_header_t))
+#define BIZ_DATA_POS (sizeof(protocol_header_t) + sizeof(protocol_logic_header_t))
+#define BIZ_DATA_POS2 (sizeof(protocol_header_t) + sizeof(protocol_logic_header_t)+1)
 
 int32_t protocol_frame_search(uint8_t *data, uint16_t len, uint16_t *frame_len);
 uint16_t calcu_logic_protocol_len(const protocol_frame_t *frame);

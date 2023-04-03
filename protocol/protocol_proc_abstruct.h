@@ -9,6 +9,8 @@ extern "C" {
 #include "protocol.h"
 #include <stdint.h>
 
+#define PLAN_TASK_MAX          8
+
 typedef struct MEMORY_PACKED {
     float voltage;         // 电压 V
     float current;         // 电流 A
@@ -55,6 +57,27 @@ typedef struct MEMORY_PACKED {
 } alarm_data_t;
 
 /*------------------------------------------------------------------------*/
+typedef struct{
+    uint8_t hour;
+    uint8_t min;
+    uint8_t sec;
+}time_node_t;
+
+typedef struct{
+    time_node_t start_point;
+    uint64_t keep_sec;
+    uint8_t action;
+    uint8_t dimm_level;
+}plan_task_t;
+
+typedef struct{
+    uint8_t task_num;
+    uint8_t init_state;
+    uint8_t init_dimm_level;
+    plan_task_t plan_task[PLAN_TASK_MAX];
+}plan_task_manage_t;
+
+/*------------------------------------------------------------------------*/
 typedef struct {
     uint8_t init_state;
     uint8_t dimming_level1;
@@ -77,8 +100,22 @@ typedef struct {
     void (*get_time_fptr)(uint64_t *time); // 并不是直接include ，也不是在文件内部extern然后转述调用，而是预先定义好，然后初始化
     void (*get_alarm_data_fptr)(alarm_data_t *data);
     void (*get_realtime_data_fptr)(realtime_data_t *data);
+    void (*get_plan_task_data_fptr)(plan_task_manage_t* data);
 } protocol_frame_profile_t;
+/*----------------------------------------------------------------------*/
 
+typedef struct{
+    uint16_t version;
+    uint8_t cmd;
+    uint16_t file_size;
+    uint16_t packet_num;
+    uint8_t idx;
+    uint16_t len;
+    uint8_t* data;
+}update_data_t;
+/*----------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------*/
 extern protocol_frame_profile_t g_profile;
 void set_protocol_frame_profile(protocol_frame_profile_t profile);
 void protocol_frame_profile_fill(protocol_frame_t *frame);
@@ -92,6 +129,9 @@ void get_device_time_flow(uint8_t* buf);
 void get_realtime_data_flow(uint8_t* buf);
 void get_device_alarm_data_flow(uint8_t *buf);
 void modify_protocol_frame_time(protocol_frame_t *frame);
+void copy_and_modify_time_dir(protocol_frame_t *frame_tmp, const protocol_frame_t *frame, uint8_t dir);
+void fill_update_data(uint8_t *buf, const update_data_t* update);
+uint16_t fill_plan_task_stream(uint8_t *buf, const plan_task_manage_t *plan_task);
 
 typedef struct {
     uint8_t *send_buf;

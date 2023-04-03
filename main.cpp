@@ -112,15 +112,21 @@ void client_thread_entry()
         {
             input_buf_clear();
             send_login_frame();
-        } else if (strcmp(input_buf, "realtime") == 0)
+        } else if (strcmp(input_buf, "activeReport") == 0)
         {
             input_buf_clear();
             send_reltime_data_frame();
-        } else if (strcmp(input_buf, "alarm") == 0)
+        }else if(strcmp(input_buf, "heartReport") == 0)
+        {   
+            input_buf_clear();
+            send_heart_frame();
+        }
+        else if (strcmp(input_buf, "alarm") == 0)
         {
             input_buf_clear();
             send_alarm_frame();
-        } else if (strcmp(input_buf, "cexit") == 0)
+        }
+        else if (strcmp(input_buf, "cexit") == 0)
         {
             input_buf_clear();
             std::cout << "client disconnect" << std::endl;
@@ -218,6 +224,10 @@ void server_thread_entry()
             {
                 input_buf_clear();
                 send_sync_time_frame();
+            } else if (strcmp(input_buf, "setActiveReport") == 0)
+            {
+                input_buf_clear();
+                send_realtime_report();
             } else if (strcmp(input_buf, "sexit") == 0)
             {
                 input_buf_clear();
@@ -225,6 +235,26 @@ void server_thread_entry()
                           << ntohs(clientAddr.sin_port) << std::endl;
                 close(server_conn_fd);
                 break;
+            }
+            else if (strcmp(input_buf, "dimm") == 0)
+            {
+                input_buf_clear();
+                send_lamp_dimm_frame();
+                break;
+            }else if(strcmp(input_buf,"update") == 0)
+            {
+                input_buf_clear();
+                send_update_frame();
+            }
+            else if(strcmp(input_buf, "set_plan_task") == 0)
+            {
+                input_buf_clear();
+                send_set_term_plan_task();
+            }
+            else if(strcmp(input_buf, "query_plan_task") == 0)
+            {
+                input_buf_clear();
+                send_query_term_plan_task();
             }
         }
         break;
@@ -236,6 +266,27 @@ void server_thread_entry()
 void port_get_time(uint64_t *time)
 {
     *time = 20220101095959012;
+}
+
+void port_get_plan_task_data(plan_task_manage_t* data)
+{
+    data->task_num        = 2;
+    data->init_state      = 0x02;
+    data->init_dimm_level = 0;
+
+    data->plan_task[0].start_point.hour = 0x06;
+    data->plan_task[0].start_point.min  = 0x59;
+    data->plan_task[0].start_point.sec  = 0x00;
+    data->plan_task[0].keep_sec         = 2 * 60 * 60;
+    data->plan_task[0].action           = 0x01;
+    data->plan_task[0].dimm_level       = 0x00;
+
+    data->plan_task[1].start_point.hour = 0x06;
+    data->plan_task[1].start_point.min  = 0x59;
+    data->plan_task[1].start_point.sec  = 0x00;
+    data->plan_task[1].keep_sec         = 2 * 60 * 60;
+    data->plan_task[1].action           = 0x01;
+    data->plan_task[1].dimm_level       = 100;
 }
 
 void protocol_init()
@@ -257,6 +308,7 @@ void protocol_init()
     client_profile.logic_protocol_ver = CFG_PROTOCOL_VERSION;
     client_profile.device_type        = CFG_PROTOCOL_DEVICE_TYPE;
     client_profile.get_time_fptr      = port_get_time;
+    client_profile.get_plan_task_data_fptr = port_get_plan_task_data;
     set_protocol_frame_profile(client_profile);
 }
 
@@ -272,6 +324,7 @@ uint8_t client_send_func_port(uint8_t *buf, uint16_t len)
     {
         printf("client send error: %s(errno:%d)\n", strerror(errno), errno);
     }
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     return 1;
 }
 
@@ -287,6 +340,7 @@ uint8_t server_send_func_port(uint8_t *buf, uint16_t len)
     {
         printf("server send error: %s(errno:%d)\n", strerror(errno), errno);
     }
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     return 1;
 }
 
